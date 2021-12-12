@@ -1,27 +1,15 @@
 package main
 
 import (
-	"database/sql"
+	"ceshi/week2/service"
 	"fmt"
-	"github.com/pkg/errors"
 )
 
-func GetSql() error {
-	return errors.Wrap(sql.ErrNoRows, "GetSql failed")
-}
-
-func Call() error {
-	return errors.WithMessage(GetSql(), "bar failed")
-}
 
 func main() {
-	err := Call()
-	if errors.Cause(err) == sql.ErrNoRows {
-		fmt.Printf("data not found, %v\n", err)
-		fmt.Printf("%+v\n", err)
-		return
-	}
+	_, err := service.GetUserList()
 	if err != nil {
-		// unknown error
+		fmt.Printf("user not found, %v\n", err)
+		fmt.Printf("%+v\n", err)
 	}
 }
