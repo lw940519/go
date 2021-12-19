@@ -1,10 +1,9 @@
 package main
 
 import (
-	"ceshi/week2/service"
+	"ceshi/service"
 	"fmt"
 )
-
 
 func main() {
 	_, err := service.GetUserList()
