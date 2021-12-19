@@ -107,15 +107,19 @@ func main() {
 func HelloWorld(w http.ResponseWriter, r *http.Request) {
 	eg, ctx := errgroup.WithContext(ctx)
 
+	fmt.Printf("request:%v", r)
 	// 模拟数据操作
 	var sum int64 = 0
 
 	eg.Go(func() error {
-		io.WriteString(w, "hello world1\n")
+		_, err := io.WriteString(w, "hello world1\n")
+		if err != nil {
+			return err
+		}
 		return nil
 	})
 
-	// 模拟可能出现的多个耗时的Grountine
+	// 模拟可能出现的多个耗时的 Grountine
 	eg.Go(func() error {
 		for {
 			atomic.AddInt64(&sum, 2)
@@ -149,7 +153,7 @@ func HelloWorld(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("HelloWorld方法退出")
 }
 
-// http的Service 服务
+// HTTPService http的Service 服务
 type HTTPService interface {
 	Open() error
 	Close(ctx context.Context) error
@@ -171,24 +175,24 @@ func (h *httpServer) Open() error {
 	return err
 }
 
-// 关闭
+// Close 关闭
 func (h *httpServer) Close(ctx context.Context) error {
 	err := h.Server.Shutdown(ctx)
 	return err
 }
 
-// 添加路由
+// RegisterHandle 添加路由
 func (h *httpServer) RegisterHandle(path string, handle func(http.ResponseWriter, *http.Request)) error {
 	h.Routerlist.HandleFunc(path, handle)
 	return nil
 }
 
-// 判断是否关闭
+// IsRunning 判断是否关闭
 func (h *httpServer) IsRunning() chan struct{} {
 	return h.IsClose
 }
 
-//  创建一个HTTPService
+// CreatHttpService  创建一个HTTPService
 func CreatHttpService(port int) HTTPService {
 	server := &httpServer{
 		port,
