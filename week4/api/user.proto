@@ -1,0 +1,16 @@
+syntax="proto3";
+
+//  protoc --go_out=plugins=grpc:. *.proto
+option go_package = "./../../week4/api";
+
+service User {
+    rpc UserMy (UserRequest) returns (UserMyReply) {} // 应用程序“我的”界面的参数请求和返回
+}
+
+message UserRequest {
+    string userID = 1; // 用户id
+}
+message UserMyReply {
+    string name = 33; // 姓名
+    int64 level = 2;  // 等级
+}

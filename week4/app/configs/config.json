@@ -1,0 +1,4 @@
+{
+  "GrpcNetWork":"tcp",
+  "GrpcAddr":":10021"
+}
