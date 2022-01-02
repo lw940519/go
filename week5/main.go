@@ -31,7 +31,7 @@ func main() {
 	eg, ctx := errgroup.WithContext(context.Background())
 
 	// 监听系统关闭信号
-	var waiter = make(chan os.Signal, 1) // 按文档指示，至少设置1的缓冲
+	var waiter = make(chan os.Signal, 1)
 	signal.Notify(waiter, syscall.SIGTERM, syscall.SIGINT)
 
 	// 模拟请求1
@@ -39,7 +39,7 @@ func main() {
 		for {
 			select {
 			case <-ctx.Done():
-				fmt.Println("1退出了")
+				fmt.Println("模拟请求1退出了")
 				return nil
 			default:
 				err := slidingWindow.Event()
@@ -56,7 +56,7 @@ func main() {
 		for {
 			select {
 			case <-ctx.Done():
-				fmt.Println("2退出了")
+				fmt.Println("模拟请求2退出了")
 				return nil
 			default:
 				err := slidingWindow.Event()
@@ -73,7 +73,7 @@ func main() {
 		for {
 			select {
 			case <-ctx.Done():
-				fmt.Println("3退出了")
+				fmt.Println("模拟结果退出了")
 				return nil
 			default:
 				fmt.Println(slidingWindow.Output())
